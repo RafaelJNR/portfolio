@@ -10,6 +10,7 @@ const miStack = [
   { name: "JavaScript", icon: "https://cdn.simpleicons.org/javascript/f7df1e" },
   { name: "React", icon: "https://cdn.simpleicons.org/react/61dafb" },
 ];
+const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout
@@ -30,9 +31,10 @@ const miStack = [
       <!-- FOTO A LA DERECHA (CIRCULAR, MÁS PEQUEÑA) -->
       <div class="hero-avatar">
         <img 
-          src="rafaeljnr.github.io/portfolio/fotos/foto_rafa_portada.webp" 
+          src=`${baseUrl}/fotos/foto_rafa_portada.webp`
           alt="Foto de Rafa" 
           class="avatar-img"
+          loading="eager"
         />
       </div>
     </div>

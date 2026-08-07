@@ -3,6 +3,7 @@
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/BaseLayout.astro'; // Ajusta la ruta a tu Layout real
 
+const baseUrl = import.meta.env.BASE_URL;
 const projects = await getCollection('projects');
 ---
 
@@ -36,7 +37,7 @@ const projects = await getCollection('projects');
             class="project-card" 
             data-search-content={`${titleString} ${descString} ${techString}`}
           >
-            <a href={`/projects/${project.id}`} class="card-link">
+            <a href={`${baseUrl}/projects/${project.id}`} class="card-link">
               <h2>{project.data.title}</h2>
               <p class="description">{project.data.description}</p>
               

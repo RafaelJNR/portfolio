@@ -1,19 +1,20 @@
 ---
 // src/components/astro/Navigation.astro
+const baseUrl = import.meta.env.BASE_URL;
 ---
 <header class="site-header">
 <nav class="nav-bar">
   <!-- 1. Logotipo -->
   <div class="logo">
-    <a href="/">Rafa<span class="dot">.</span></a>
+    <a href={`${baseUrl}/`}>Rafa<span class="dot">.</span></a>
   </div>
 
   <!-- 2. Enlaces del menú (PC y Desplegable móvil) -->
   <div class="links">
-    <a href="/">Inicio</a>
-    <a href="/blog">Blog</a>
-    <a href="/projects">Mis Projectos</a>
-    <a href="/sobre-mi">Sobre Mi</a>
+    <a href={`${baseUrl}/`}>Inicio</a>
+    <a href={`${baseUrl}/blog`}>Blog</a>
+    <a href={`${baseUrl}/projects`}>Mis Proyectos</a>
+    <a href={`${baseUrl}/sobre-mi`}>Sobre Mí</a>
   </div>
 
   <!-- 3. Botones de acción (Tema y Hamburguesa) -->
@@ -33,6 +34,7 @@
   </div>
 </nav>
 </header>
+
 <script>
   function getInitialTheme() {
     if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
@@ -86,14 +88,13 @@
 
   .nav-bar {
     /* Centramos el contenido interno dentro de la barra de ancho completo */
-    max-width: 1200px; /* Ajusta según el ancho máximo de tu sitio */
+    max-width: 1200px;
     margin: 0 auto;
     padding: 1rem 1.5rem;
     display: grid;
     grid-template-columns: auto 1fr auto;
     align-items: center;
     position: relative;
-    /* ELIMINADO EL BORDER-BOTTOM DUPLICADO QUE HABÍA AQUÍ */
   }
 
   .logo a {

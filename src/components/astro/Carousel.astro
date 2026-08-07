@@ -4,14 +4,25 @@ interface Props {
   images: string[];
 }
 
+const baseUrl = import.meta.env.BASE_URL;
 const { images } = Astro.props;
 ---
 
 <div class="carousel-fade">
-  {images.map((src) => (
-    /* 1. CAMBIO AQUÍ: Se añade class="carousel-img" */
-    <img src={src} alt="Imagen del proyecto" class="carousel-img" title="Haz clic para ampliar" />
-  ))}
+  {images.map((src) => {
+    // Evitamos problemas si la ruta ya viene con o sin barra inicial
+    const cleanSrc = src.startsWith('/') ? src : `/${src}`;
+    const fullPath = `${baseUrl}${cleanSrc}`.replace('//', '/');
+
+    return (
+      <img 
+        src={fullPath} 
+        alt="Imagen del proyecto" 
+        class="carousel-img" 
+        title="Haz clic para ampliar" 
+      />
+    );
+  })}
 </div>
 
 <!-- MODAL LIGHTBOX -->

@@ -6,5 +6,5 @@ import { defineConfig } from 'astro/config';
 
 export default defineConfig({
   site: 'https://rafaelJNR.github.io',
-  base: '/portfolio/',
+  base: '/portfolio',
 });
