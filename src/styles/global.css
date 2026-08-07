@@ -1,0 +1,186 @@
+/* src/styles/global.css */
+
+/* =========================================================================
+   1. DEFINICIÓN DE PALETAS DE COLORES (Variables CSS)
+   ========================================================================= */
+
+/* Modo Oscuro por defecto (Tu paleta actual) */
+:root {
+  --background: #2c2c30;
+  --surface: #1a1a1e;
+  --border: #29292e;
+  --text: #c9d1d9;
+  --text-bold: #ffffff;
+  --text-muted: #808090;
+  --primary: #4fc3f7;       /* El azul cyan que ya usabas */
+  --primary-hover: #81d4fa;
+}
+
+/* Modo Claro (Se activa cuando pulsas el botón) */
+[data-theme="light"] {
+ /* Fondo principal: Un gris acero con un toque sutil de azul */
+  --background: #d0e2f0; 
+  
+  /* Superficie: Blanco puro para que las tarjetas del blog rompan el fondo gris con fuerza */
+  --surface: #9cc3f1; 
+  
+  /* Bordes: Un gris azulado intermedio para delimitar secciones limpiamente */
+  --border: #7ea0c6; 
+  
+  /* Texto general: Un pizarra oscuro con base azulada, súper nítido para leer */
+  --text: #263238; 
+  
+  /* Títulos y texto fuerte: Un azul marino-pizarra muy profundo y con mucho carácter */
+  --text-bold: #10171a; 
+  
+  /* Texto secundario o fechas: Gris azulado apagado */
+  --text-muted: #607d8b; 
+  
+  /* Color de acento (Enlaces y botones): Un azul vaquero/acero oscuro e intenso */
+  --primary: #c3a1c0; 
+  --primary-hover: #21272a;
+}
+
+/* =========================================================================
+   2. REGLAS GLOBALES Y RESET (Usando 100% Variables CSS)
+   ========================================================================= */
+
+/* Reset básico y box-sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: var(--background); /* 👈 Ahora sí lee la variable dinámica */
+  color: var(--text);                 /* 👈 Ahora sí lee la variable dinámica */
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  /* Transición suave al cambiar de modo */
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; 
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-bold);
+  transition: color 0.3s ease;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}
+
+/* =========================================================================
+   3. ESTILOS DE CONTENIDO DEL BLOG (Soporte dinámico para Markdown/Prose)
+   ========================================================================= */
+.prose h1, .prose h2, .prose h3 {
+  color: var(--text-bold);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  transition: color 0.3s ease;
+}
+
+.prose p {
+  margin-bottom: 1.2rem;
+  color: var(--text);
+  transition: color 0.3s ease;
+}
+
+.prose ul, .prose ol {
+  margin-bottom: 1.2rem;
+  padding-left: 1.5rem;
+}
+
+.prose li {
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+.prose a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.btn-primary { background-color: var(--primary); color: var(--background); }
+.btn-primary:hover { background-color: var(--primary-hover); }
+
+/* Inputs base (para que el buscador del blog y el de contacto se vean igual) */
+input[type="text"], textarea {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background-color: var(--surface);
+  color: var(--text);
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+
+/* =========================================================================
+   4. COMPONENTES GLOBALES (Botones, Inputs, Utilidades)
+   ========================================================================= */
+
+/* Botones */
+.btn {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-primary { 
+  background-color: var(--primary); 
+  color: var(--background); 
+}
+
+.btn-primary:hover { 
+  background-color: var(--primary-hover); 
+}
+
+/* Inputs de búsqueda */
+.search-input {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background-color: var(--surface);
+  color: var(--text);
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* Utilidades */
+.container { max-width: 800px; margin: 0 auto; }
+
+/* Utilidades de tipografía */
+.hero-title { font-size: 3rem; margin-bottom: 0.5rem; }
+.hero-subtitle { font-size: 1.5rem; color: var(--primary); font-weight: 500; margin-bottom: 2rem; }
+.hero-description { font-size: 1.1rem; line-height: 1.8; max-width: 900px; padding-bottom: 2rem; }
+
+
+

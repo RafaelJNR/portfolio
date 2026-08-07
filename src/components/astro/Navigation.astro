@@ -1,0 +1,217 @@
+---
+// src/components/astro/Navigation.astro
+---
+<header class="site-header">
+<nav class="nav-bar">
+  <!-- 1. Logotipo -->
+  <div class="logo">
+    <a href="/">Rafa<span class="dot">.</span></a>
+  </div>
+
+  <!-- 2. Enlaces del menú (PC y Desplegable móvil) -->
+  <div class="links">
+    <a href="/">Inicio</a>
+    <a href="/blog">Blog</a>
+    <a href="/projects">Mis Projectos</a>
+    <a href="/sobre-mi">Sobre Mi</a>
+  </div>
+
+  <!-- 3. Botones de acción (Tema y Hamburguesa) -->
+  <div class="nav-buttons">
+    <!-- Botón de Tema (Sol/Luna) -->
+    <button id="theme-toggle" class="theme-btn" aria-label="Cambiar tema visual">
+      <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M22 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+      <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+    </button>
+
+    <!-- Botón Hamburguesa Móvil -->
+    <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </div>
+</nav>
+</header>
+<script>
+  function getInitialTheme() {
+    if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+      return localStorage.getItem('theme') || 'dark';
+    }
+    return 'dark';
+  }
+
+  const initialTheme = getInitialTheme();
+  document.documentElement.setAttribute('data-theme', initialTheme);
+
+  const themeToggle = document.getElementById('theme-toggle');
+  const menuToggle = document.querySelector('.menu-toggle');
+  const links = document.querySelector('.links');
+
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const element = document.documentElement;
+      const currentTheme = element.getAttribute('data-theme');
+      const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
+      
+      element.setAttribute('data-theme', nextTheme);
+      localStorage.setItem('theme', nextTheme);
+    });
+  }
+
+  if (menuToggle && links) {
+    menuToggle.addEventListener('click', () => {
+      links.classList.toggle('active');
+      menuToggle.classList.toggle('open');
+      const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+      menuToggle.setAttribute('aria-expanded', !isExpanded ? 'true' : 'false');
+    });
+  }
+</script>
+
+<style>
+  .site-header {
+    /* 1. Mantenemos el comportamiento STICKY perfecto */
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: var(--background);
+    
+    /* 2. Ancho completo de borde a borde */
+    width: 100%;
+    
+    /* 3. LÍNEA ÚNICA LIMPIA: Solo la de abajo del header */
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-bar {
+    /* Centramos el contenido interno dentro de la barra de ancho completo */
+    max-width: 1200px; /* Ajusta según el ancho máximo de tu sitio */
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    position: relative;
+    /* ELIMINADO EL BORDER-BOTTOM DUPLICADO QUE HABÍA AQUÍ */
+  }
+
+  .logo a {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-bold);
+    text-decoration: none;
+  }
+
+  .dot {
+    color: var(--primary);
+    text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+  }
+
+  .links {
+    display: flex;
+    justify-content: flex-end;
+    gap: 2rem;
+    margin-right: 3rem;
+  }
+
+  .links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  .links a:hover {
+    color: var(--text-bold);
+  }
+
+  .nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  /* Botón Sol / Luna */
+  .theme-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.5rem;
+    cursor: pointer;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+
+  .theme-btn:hover {
+    color: var(--text-bold);
+    border-color: var(--text-muted);
+    background-color: var(--surface);
+  }
+
+  :global([data-theme="dark"]) .sun-icon { display: block; }
+  :global([data-theme="dark"]) .moon-icon { display: none; }
+  :global([data-theme="light"]) .sun-icon { display: none; }
+  :global([data-theme="light"]) .moon-icon { display: block; }
+
+  /* Menú hamburguesa (Oculto en PC) */
+  .menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 18px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    color: var(--text-bold);
+  }
+
+  .bar {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: currentColor;
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  /* ESTILOS MÓVIL (< 768px) */
+  @media (max-width: 768px) {
+    .nav-bar {
+      grid-template-columns: 1fr auto;
+    }
+
+    .menu-toggle {
+      display: flex;
+    }
+
+    .links {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background-color: var(--background);
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      gap: 1.5rem;
+      margin: 0;
+      box-sizing: border-box;
+      z-index: 10;
+    }
+
+    .links.active {
+      display: flex;
+    }
+
+    .menu-toggle.open .bar:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+    .menu-toggle.open .bar:nth-child(2) { opacity: 0; }
+    .menu-toggle.open .bar:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+  }
+</style>

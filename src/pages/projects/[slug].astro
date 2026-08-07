@@ -1,0 +1,179 @@
+---
+// src/pages/projects/[...slug].astro
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/BaseLayout.astro';
+import ProjectCarousel from '../../components/astro/Carousel.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+
+<Layout title={project.data.title}>
+  <main class="project-detail">
+    <header class="project-header">
+      <h1>{project.data.title}</h1>
+      <p class="description">{project.data.description}</p>
+      
+      <!-- Usamos techStack en lugar de tags -->
+      <div class="tags">
+        {project.data.techStack.map((tech: string) => <span>{tech}</span>)}
+      </div>
+
+      <!-- Enlaces del proyecto: solo se muestran si existen en el frontmatter -->
+      <div class="links">
+        {project.data.githubUrl ? (
+          <a href={project.data.githubUrl} target="_blank" rel="noopener noreferrer" class="btn btn-repo">Ver Código</a>
+        ): (
+          <span class="desktop-badge">🔒 Repositorio Privado</span>
+        )}
+        
+        {/* CONDICIONAL: Solo pinta el botón si liveUrl tiene contenido definido */}
+        {project.data.liveUrl ? (
+          <a href={project.data.liveUrl} target="_blank" rel="noopener noreferrer" class="btn btn-demo">Ver Demo</a>
+        ) : (
+          <span class="desktop-badge">💻 App de Escritorio</span>
+        )}
+      </div>
+    </header>
+
+    <hr class="divider" />
+
+    <!-- Carrusel de imágenes (solo se muestra si hay imágenes en el frontmatter) -->
+    {project.data.images && project.data.images.length > 0 && (
+      <div class="carousel-wrapper">
+        <ProjectCarousel images={project.data.images} />
+      </div>
+    )}
+
+    <!-- Contenido extendido del archivo .md / .mdx -->
+    <div class="project-content">
+      <Content />
+    </div>
+
+    <div class="back-link">
+      <a href="/projects">← Volver a proyectos</a>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .project-detail {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem 1rem;
+  }
+
+  .project-header {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  .description {
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .tags {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .tags span {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    background-color: var(--text-muted);
+    color: var(--text-accent);
+    font-weight: 500;
+  }
+
+  .links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .btn {
+    padding: 0.5rem 1.25rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    width: max-content;
+  }
+
+  .btn-repo {
+    background-color: var(--text-muted);
+    color: var(--primary);
+    border: 1px solid var(--border-color);
+  }
+
+  .btn-demo {
+    background-color: var(--text-muted);
+    color: var(--primary);
+    border: 1px solid var(--border-color);
+  }
+
+  .desktop-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    background-color: var(--surface);
+    border: 1px dashed var(--border-color);
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 2rem 0;
+  }
+
+  .carousel-wrapper {
+    margin-bottom: 2.5rem;
+  }
+
+  .project-content {
+    line-height: 1.8;
+    color: var(--text);
+  }
+
+  .project-content h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .back-link {
+    margin-top: 3rem;
+  }
+
+  .back-link a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .back-link a:hover {
+    text-decoration: underline;
+  }
+</style>

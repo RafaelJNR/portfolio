@@ -1,0 +1,250 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SkillGrid from "../components/astro/SkillGrid.astro";
+import SocialLinks from "../components/astro/SocialLinks.astro";
+import ProjectCard from "../components/astro/ProjectCard.astro";
+
+const nombre = "Rafa";
+const rol = "Tu Desarrollador Full Stack & Docente para Adultos";
+const miStack = [
+  { name: "JavaScript", icon: "https://cdn.simpleicons.org/javascript/f7df1e" },
+  { name: "React", icon: "https://cdn.simpleicons.org/react/61dafb" },
+];
+---
+
+<BaseLayout
+  title="Rafa | Inicio"
+  description="Portfolio profesional de Rafa, desarrollador de software y docente."
+>
+  <section class="section-hero">
+    <!-- CONTENEDOR FLEX PARA TEXTO E IMAGEN -->
+    <div class="hero-container">
+      <div class="hero-content">
+        <div class="hero-header">
+          <h1 class="hero-title">¡Hola! Soy {nombre}</h1>
+          <SocialLinks />
+        </div>
+        <p class="hero-subtitle">{rol}</p>
+      </div>
+
+      <!-- FOTO A LA DERECHA (CIRCULAR, MÁS PEQUEÑA) -->
+      <div class="hero-avatar">
+        <img 
+          src="/fotos/foto_rafa_portada.webp" 
+          alt="Foto de Rafa" 
+          class="avatar-img"
+        />
+      </div>
+    </div>
+   
+    <p class="hero-description">
+      <strong
+      >Combinar el desarrollo técnico con la capacidad analítica docente me
+      permite abordar problemas complejos con una visión clara y concisa tanto
+      técnica como analítica</strong
+      >.
+    </p>
+      
+        <h2>Mi enfoque</h2>
+    <p class="hero-description">
+      Mi trabajo nace en la intersección entre el desarrollo de software y la
+      arquitectura de soluciones educativas digitales que, junto con una
+      capacidad comunicativa asertiva, los conocimientos adquiridos en el ámbito
+      de la docencia y la experiencia de gestión de equipos en el ámbito de la
+      institución militar, me permiten ofrecer soluciones técnicas y
+      pedagógicas, ya sean como desarrollador o docente, que se adaptan a las
+      necesidades de cada proyecto.
+    </p>
+  </section>
+
+  <div class="my-stacks">
+    <h2>Tecnologías con las que Trabajo</h2>
+    <SkillGrid
+      category="Frontend"
+      items={[
+        {
+          name: "JavaScript",
+          icon: "https://cdn.simpleicons.org/javascript/f7df1e",
+        },
+        {
+          name: "TypeScript",
+          icon: "https://cdn.simpleicons.org/typescript/3178c6",
+        },
+        { name: "React", icon: "https://cdn.simpleicons.org/react/61dafb" },
+        { name: "Astro", icon: "https://cdn.simpleicons.org/astro/ff5d01" },
+        { name: "HTML5", icon: "https://cdn.simpleicons.org/html5/e34f26" },
+        {
+          name: "CSS3",
+          icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqSN7T2ctueGreS7UgWzpLtVxz7YEHLipGrkEQgm7PRA&s=10",
+        },
+      ]}
+    />
+
+    <SkillGrid
+      category="Backend"
+      items={[
+        {
+          name: "Java",
+          icon: "https://images.vexels.com/media/users/3/166401/isolated/preview/b82aa7ac3f736dd78570dd3fa3fa9e24-java-programming-language-icon.png",
+        },
+        {
+          name: "Spring",
+          icon: "https://cdn.simpleicons.org/spring/6db33f",
+        },
+        {
+          name: "Node.js",
+          icon: "https://cdn.simpleicons.org/nodedotjs/339933",
+        },
+        { name: "SQLite", icon: "https://cdn.simpleicons.org/sqlite/003b57" },
+        { name: "SQL", icon: "https://cdn.simpleicons.org/mysql/4479a1" },
+      ]}
+    />
+
+    <SkillGrid
+      category="Desktop & Tools"
+      items={[
+        {
+          name: "Electron",
+          icon: "https://cdn.simpleicons.org/electron/47848f",
+        },
+        { name: "Ionic", icon: "https://cdn.simpleicons.org/ionic/3880ff" },
+        { name: "Git", icon: "https://cdn.simpleicons.org/git/f05032" },
+        { name: "GitHub", icon: "https://cdn.simpleicons.org/github/181717" },
+      ]}
+    />
+  </div>
+
+  <section class="projects-section">
+    <h2>Mis Proyectos Destacados</h2>
+    <p>Visite <a href="./projects" target="_blank">mis proyectos</a> para ver más.</p>
+
+    <div class="projects-grid">
+      <ProjectCard 
+        title="Sunny Design System"
+        description="Software docente acerca de Sunny Design. Su valor es acumular contenido acerca de la plataforma y su ecosistema, y ofrecerlo de manera didáctica a los estudiantes."
+        tags={['HTML5', 'CSS3', 'JAVASCRIPT', 'DOCENCIA']}
+        imagenes={["images/sunnydesign/1.png", "images/sunnydesign/2.png", "images/sunnydesign/3.png"] }
+        repoLink="https://github.com/RafaelJNR/sunnydesign"
+        demoLink="https://rafaeljnr.github.io/sunnydesign/"
+        compact={true} 
+      />
+
+      <ProjectCard 
+        title="YT Audio Downloader"
+        description="Aplicación portable de escritorio para Windows que permite descargar audio a partir de un vídeo 
+        de YouTube."
+        tags={['HTML', 'CSS', 'JavaScript', 'Electron', 'Node.js']}
+        imagenes={["images/ytaudiodownloader/1.png", "images/ytaudiodownloader/2.png", "images/ytaudiodownloader/3.png", "images/ytaudiodownloader/4.png"] }
+        repoLink="https://github.com/RafaelJNR/AudioDownloader"
+        compact={true} 
+      />
+
+      <ProjectCard 
+        title="Portfolio Personal"
+        description="Desarrollado con Astro..."
+        tags={['Astro', 'CSS']}
+        imagenes={[]}
+        compact={true} 
+      />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .section-hero {
+    padding: 2rem 0;
+  }
+
+  .hero-container {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    /* En lugar de space-between (que empuja el avatar al borde derecho), 
+       usamos center con gap para traer el avatar más hacia la izquierda */
+    justify-content: center;
+    gap: 3rem; 
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  @media (min-width: 768px) {
+    .hero-container {
+      flex-direction: row;
+      align-items: center;
+      /* Ajusta este valor si quieres el avatar aún más cerca del texto/izquierda */
+      justify-content: space-between; 
+    }
+  }
+
+  .hero-content {
+    flex: 1;
+  }
+
+  .hero-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .hero-title {
+    margin: 0;
+  }
+
+  .hero-subtitle {
+    text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+  }
+
+/* En el <style> de tu index.astro */
+.hero-avatar {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Añadimos un margen a la derecha para retirar la foto del borde del marco */
+    margin-right: 1.5rem; 
+    padding: 0.5rem;
+  }
+
+  .avatar-img {
+    width: 180px;
+    height: 180px;
+    min-width: 180px;
+    min-height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--primary);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    margin-bottom: 1rem;
+  }
+  @media (min-width: 768px) {
+    .avatar-img {
+      width: 240px;
+      height: 240px;
+      min-width: 240px;
+      min-height: 240px;
+      margin-bottom: 0;
+    }
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .projects-section h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .projects-section p{
+    margin-bottom: 2rem;
+  }
+
+  .my-stacks h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+</style>

@@ -1,0 +1,185 @@
+---
+// Carousel.astro
+interface Props {
+  images: string[];
+}
+
+const { images } = Astro.props;
+---
+
+<div class="carousel-fade">
+  {images.map((src) => (
+    /* 1. CAMBIO AQUÍ: Se añade class="carousel-img" */
+    <img src={src} alt="Imagen del proyecto" class="carousel-img" title="Haz clic para ampliar" />
+  ))}
+</div>
+
+<!-- MODAL LIGHTBOX -->
+<dialog id="image-modal" class="image-modal">
+  <div class="modal-content">
+    <button id="close-modal" class="close-button" aria-label="Cerrar imagen">&times;</button>
+    <img id="modal-img" src="" alt="Imagen ampliada" />
+  </div>
+</dialog>
+
+<script>
+  // 2. CAMBIO AQUÍ: Función directa adaptada al ciclo de vida de Astro
+  function setupModal() {
+    const modal = document.getElementById('image-modal') as HTMLDialogElement;
+    const modalImg = document.getElementById('modal-img') as HTMLImageElement;
+    const closeBtn = document.getElementById('close-modal');
+    const carouselImgs = document.querySelectorAll('.carousel-img');
+
+    if (modal && modalImg) {
+      carouselImgs.forEach((img) => {
+        img.addEventListener('click', (e) => {
+          const target = e.target as HTMLImageElement;
+          modalImg.src = target.src;
+          modal.showModal();
+        });
+      });
+
+      closeBtn?.addEventListener('click', () => {
+        modal.close();
+      });
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.close();
+        }
+      });
+    }
+  }
+
+  // Se ejecuta al cargar la página y tras navegaciones en Astro
+  setupModal();
+  document.addEventListener('astro:page-load', setupModal);
+</script>
+
+<style>
+  .carousel-fade {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    aspect-ratio: 16 / 9;
+    margin: 2rem auto;
+    overflow: hidden;
+    border-radius: 12px;
+    background-color: var(--background, rgba(0, 0, 0, 0.2)); 
+    border: 1px solid var(--border-color, transparent);
+  }
+
+.carousel-fade img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 0.5rem;
+    opacity: 0;
+    pointer-events: none; /* CLAVE 1: Las imágenes invisibles no capturan el clic */
+    animation: fade-cycle 12s infinite ease-in-out;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  .carousel-fade img:hover {
+    transform: scale(1.01);
+  }
+
+  /* Retardos de la animación */
+  .carousel-fade img:nth-child(1) { animation-delay: 0s; }
+  .carousel-fade img:nth-child(2) { animation-delay: 4s; }
+  .carousel-fade img:nth-child(3) { animation-delay: 8s; }
+
+  /* CLAVE 2: Activamos los clics únicamente cuando la imagen es visible */
+  @keyframes fade-cycle {
+    0% { 
+      opacity: 0; 
+      pointer-events: none; 
+    }
+    5% { 
+      opacity: 1; 
+      pointer-events: auto; /* Permite clicar la imagen en cuanto aparece */
+    }   
+    33% { 
+      opacity: 1; 
+      pointer-events: auto; 
+    }
+    38% { 
+      opacity: 0; 
+      pointer-events: none; /* Vuelve a desactivar clics cuando desaparece */
+    }  
+    100% { 
+      opacity: 0; 
+      pointer-events: none; 
+    }
+  }
+
+/* ESTILOS DEL MODAL LIGHTBOX */
+  .image-modal {
+    padding: 0;
+    border: 1px solid var(--border-color, rgba(255, 255, 255, 0.15));
+    border-radius: 16px;
+    background-color: var(--surface, #1e1e2e); /* Fondo de la tarjeta/superficie */
+    max-width: 90vw;
+    max-height: 85vh;
+    overflow: hidden;
+    
+    /* Centrado absoluto en pantalla */
+    margin: auto;
+    position: fixed;
+    inset: 0;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+  }
+
+  /* Fondo oscuro traslúcido detrás del modal (Backdrop) */
+  .image-modal::backdrop {
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .modal-content {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem; /* Margen interno para que la imagen respire dentro de la caja */
+    background-color: var(--surface, #1e1e2e);
+  }
+
+  .modal-content img {
+    max-width: 100%;
+    max-height: 75vh;
+    object-fit: contain;
+    border-radius: 8px;
+    display: block;
+  }
+
+  .close-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 1.5rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    z-index: 10;
+  }
+
+  .close-button:hover {
+    background: var(--primary, #3b82f6);
+    color: #ffffff;
+    transform: scale(1.05);
+  }
+</style>

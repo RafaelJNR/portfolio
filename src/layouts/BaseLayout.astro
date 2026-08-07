@@ -1,0 +1,35 @@
+---
+// src/layouts/BaseLayout.astro
+// 1. Importamos los componentes que acabamos de crear
+import Navigation from '../components/astro/Navigation.astro';
+import Footer from '../components/astro/Footer.astro';
+import '../styles/global.css';
+
+const { title, description } = Astro.props;
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description || "Mi portfolio profesional"} />
+    <title>{title || "Rafa | Desarrollador & Docente"}</title>
+    
+  </head>
+  <body>
+    
+    <!-- 2. Colocamos la barra de navegación arriba -->
+    <Navigation />
+    
+    <main>
+      <!-- 3. Aquí sigue encajando el "slot" (el contenido cambiante de cada página) -->
+      <slot />
+    </main>
+    
+    <!-- 4. Colocamos el pie de página abajo -->
+    <Footer />
+    
+  </body>
+</html>

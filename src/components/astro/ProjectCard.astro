@@ -1,0 +1,173 @@
+---
+import Carousel from './Carousel.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  tags: string[];
+  imagenes?: string[];
+  repoLink?: string;
+  demoLink?: string;
+  compact?: boolean;
+}
+
+const { title, description, tags, imagenes, repoLink, demoLink, compact = false } = Astro.props;
+---
+
+<article class={`project-card ${compact ? 'compact-view' : ''}`}>
+  
+  <div class="card-content">
+    <!-- 1. Título arriba y centrado -->
+    <h3>{title}</h3>
+
+    <!-- 2. Imagen justo debajo del título -->
+    {imagenes && imagenes.length > 0 && (
+      <div class="card-image-container">
+        <Carousel images={imagenes} />
+      </div>
+    )}
+
+    <!-- 3. Descripción y tags -->
+    <p>{description}</p>
+    
+    <div class="tags">
+      {tags.map((tag: string) => <span>{tag}</span>)}
+    </div>
+  </div>
+
+  <div class="button-group">
+    {repoLink ? (
+      <a href={repoLink} target="_blank" class="btn btn-repo">Código</a>
+    ): (
+      <span class="desktop-badge">🔒 Repositorio Privado</span>
+    )}
+    {demoLink ? (
+      <a href={demoLink} target="_blank" rel="noopener noreferrer" class="btn btn-demo">
+        Ver Demo
+      </a>
+    ) : (
+      <span class="desktop-badge">💻 App de Escritorio</span>
+    )}
+  </div>
+</article>
+
+<style>
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    background-color: var(--surface);
+    transition: all 0.3s ease;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .card-content {
+    flex-grow: 1;
+    padding: 1.5rem;
+    padding-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra horizontalmente todo el contenido de la tarjeta */   /* Centra los textos por defecto */
+  }
+
+  /* Título arriba */
+  h3 {
+    margin: 0 0 0 0; /* Margen inferior controlado para acercar la imagen */
+    font-size: 1.25rem;
+    color: var(--text);
+    text-align: center;
+    width: 100%;
+  }
+
+  /* Contenedor de la imagen más cerca del título */
+  .card-image-container {
+    width: 350px;
+    height: 350px;
+    margin-bottom: 1rem; /* Pequeña separación entre la imagen y la descripción */
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+  }
+
+  /* Versión compacta para el index */
+  .project-card.compact-view .card-image-container {
+    height: 225px;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+
+  .tags {
+    display: flex;
+    justify-content: center; /* Centra también las etiquetas */
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+  }
+
+  .tags span {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    background-color: var(--text-muted);
+    color: var(--text-accent);
+    font-weight: 500;
+  }
+
+  .button-group {
+    display: flex;
+    justify-content: center; /* Centra los botones abajo */
+    gap: 0.75rem;
+    border-top: 1px solid var(--border-color);
+    padding: 1rem 1.5rem;
+    margin-top: auto;
+  }
+
+  .btn {
+    padding: 0.4rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: opacity 0.2s;
+  }
+
+  .btn-repo {
+    background-color: var(--text-muted);
+    color: var(--primary);
+  }
+
+  .btn-demo {
+    background-color: var(--text-muted);
+    color: var(--primary);
+  }
+
+  .btn:hover {
+    opacity: 0.8;
+  }
+
+  .desktop-badge {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    background-color: var(--text-muted);
+    padding: 0.3rem 0.8rem;
+    border-radius: 10px;
+    display: inline-block;
+  }
+
+  :global(.project-card .carousel-container) {
+    height: 100%;
+    width: 100%;
+  }
+  
+  :global(.project-card .carousel-img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+</style>

@@ -1,0 +1,222 @@
+---
+// src/pages/projects/index.astro
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/BaseLayout.astro'; // Ajusta la ruta a tu Layout real
+
+const projects = await getCollection('projects');
+---
+
+<Layout title="Proyectos">
+  <main class="projects-container">
+    <header class="projects-header">
+      <h1>Mis Proyectos</h1>
+      <p>Explora los desarrollos y herramientas que he estado desarrollando.</p>
+      
+      <!-- BUSCADOR -->
+      <div class="search-box">
+        <input 
+          type="search" 
+          id="project-search" 
+          placeholder="Buscar por nombre o tecnología (ej: React, JavaScript...)" 
+          autocomplete="off"
+        />
+      </div>
+    </header>
+
+    <!-- LISTADO DE PROYECTOS -->
+    <div class="projects-grid" id="projects-grid">
+      {projects.map((project) => {
+        // Concatenamos las tecnologías en un string para facilitar el filtrado con dataset
+        const techString = project.data.techStack ? project.data.techStack.join(' ').toLowerCase() : '';
+        const titleString = project.data.title.toLowerCase();
+        const descString = project.data.description.toLowerCase();
+
+        return (
+          <article 
+            class="project-card" 
+            data-search-content={`${titleString} ${descString} ${techString}`}
+          >
+            <a href={`/projects/${project.id}`} class="card-link">
+              <h2>{project.data.title}</h2>
+              <p class="description">{project.data.description}</p>
+              
+              <div class="tech-stack">
+                {project.data.techStack && project.data.techStack.map((tech: string) => (
+                  <span class="tech-tag">{tech}</span>
+                ))}
+              </div>
+            </a>
+          </article>
+        );
+      })}
+    </div>
+
+    <!-- MENSAJE SI NO HAY RESULTADOS -->
+    <p id="no-results" class="no-results hidden">
+      No se encontraron proyectos que coincidan con tu búsqueda.
+    </p>
+  </main>
+</Layout>
+
+<script>
+  // Script de filtrado en cliente
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('project-search') as HTMLInputElement;
+    const projectCards = document.querySelectorAll('.project-card') as NodeListOf<HTMLElement>;
+    const noResults = document.getElementById('no-results');
+
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        const query = (e.target as HTMLInputElement).value.toLowerCase().trim();
+        let matchesCount = 0;
+
+        projectCards.forEach((card) => {
+          const searchData = card.getAttribute('data-search-content') || '';
+          const matches = searchData.includes(query);
+
+          if (matches) {
+            card.style.display = 'block';
+            matchesCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        // Muestra u oculta el mensaje de "sin resultados"
+        if (noResults) {
+          if (matchesCount === 0) {
+            noResults.classList.remove('hidden');
+          } else {
+            noResults.classList.add('hidden');
+          }
+        }
+      });
+    }
+  });
+</script>
+
+<style>
+  .projects-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 3rem 1rem;
+  }
+
+  .projects-header {
+    text-align: left;
+    margin-bottom: 2.5rem;
+  }
+
+  .projects-header h1 {
+    font-size: 2.5rem;
+    color: var(--text-bold);
+    margin-bottom: 0.5rem;
+  }
+
+  .projects-header p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+  }
+
+  /* Estilos del buscador */
+  .search-box {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .search-box input {
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--surface);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .search-box input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  }
+
+  /* Grid de proyectos */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    border: 1px solid var(--border); 
+    border-radius: 12px; 
+    overflow: hidden;
+    background-color: var(--surface);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+    border-color: var(--primary); 
+  }
+
+  .project-card:hover h2 {
+    color: var(--primary);
+    textshadow: 0px 10px 15px -3px rgba(0, 0, 0, 5);
+  }
+
+  .card-link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 1.5rem;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .project-card h2 {
+    font-size: 1.25rem;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+
+  .description {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+    flex-grow: 1;
+  }
+
+  .tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    justify-content: center; 
+  }
+
+  .tech-tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 12px;
+    background-color: var(--text-muted);
+    color: var(--text-accent);
+    font-weight: 500;
+  }
+
+  .no-results {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-top: 3rem;
+    font-size: 1.1rem;
+  }
+
+  .hidden {
+    display: none;
+  }
+</style>

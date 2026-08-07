@@ -1,0 +1,216 @@
+---
+// =========================================================================
+// 1. EL FRONTMATTER (Área de JavaScript)
+// =========================================================================
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+
+const allPosts = await getCollection('blog');
+const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout title="Blog | Rafa" description="Artículos sobre desarrollo de software y docencia">
+  <section class="blog-container">
+    <h1>Mi Blog</h1>
+    <p class="subtitle">Espacio donde comparto lo que voy aprendiendo sobre código, docencia y tecnología.</p>
+    
+    <div class="search-wrapper">
+      <input type="search" id="post-search" class="search-input" placeholder="Buscar por título o categoría..." />
+    </div>
+
+    <!-- AQUÍ SE AÑADIÓ EL ID NECESARIO PARA EL SCRIPT -->
+    <div class="posts-list" id="posts-list">
+      {sortedPosts.map(post => {
+        if (!post || !post.data) return null;
+
+        const cleanSlug = post.id.replace(/\.(md|mdx)$/, '');
+        const { title, description, pubDate, category, heroImage } = post.data;
+        
+        return (
+          <article class="post-card">
+            {heroImage && (
+              <div class="card-image-wrapper">
+                <Image 
+                  src={heroImage} 
+                  alt={title || "Imagen de portada"} 
+                  width={600} 
+                  height={300} 
+                  quality="medium"
+                  class="card-img"
+                />
+              </div>
+            )}
+
+            <div class="card-content">
+              <header>
+                <span class="post-date">
+                  {pubDate ? pubDate.toLocaleDateString('es-ES', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  }) : ''}
+                </span>
+                <span class="post-category">{category || 'General'}</span>
+              </header>
+              
+              <h2>
+                <a href={`/blog/${cleanSlug}`}>{title}</a>
+              </h2>
+              
+              <p>{description}</p>
+              
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* 
+    Al poner padding: 0 en los lados, el contenedor del blog se alinea 
+    al milímetro con el contenedor principal del index.astro
+  */
+  .blog-container { 
+    padding: 3rem 0; /* Mismo padding vertical que .section-hero en el index */
+  }
+
+  .blog-container h1 {
+    font-size: 3rem; /* Mismo tamaño que .hero-title en global.css */
+    margin-bottom: 0.5rem;
+    color: var(--text-bold);
+  }
+
+  .subtitle { 
+    color: var(--text); 
+    font-size: 1.1rem; 
+    margin-bottom: 2rem; 
+    line-height: 1.8;
+  }
+
+  .search-wrapper { 
+    margin-bottom: 2.5rem; 
+  }
+
+  .posts-list { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 2rem; 
+  }
+  
+  .post-card { 
+    background-color: var(--surface); 
+    border: 1px solid var(--border); 
+    border-radius: 12px; 
+    overflow: hidden; 
+    position: relative; 
+    transition: transform 0.2s, box-shadow 0.2s; 
+  }
+
+  .post-card:hover { 
+    transform: translateY(-4px); 
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+    border-color: var(--primary); 
+  }
+  
+  .card-image-wrapper { 
+    height: 220px; 
+    overflow: hidden; 
+    border-bottom: 1px solid var(--border); 
+  }
+
+  .card-img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    transition: transform 0.3s; 
+  }
+
+  .post-card:hover .card-img { 
+    transform: scale(1.03); 
+  }
+  
+  .card-content { 
+    padding: 2rem; 
+  }
+
+  header { 
+    display: flex; 
+    gap: 1rem; 
+    align-items: center; 
+    font-size: 0.85rem; 
+    margin-bottom: 0.75rem; 
+  }
+
+  .post-category { 
+    background: var(--background); 
+    border: 1px solid var(--border); 
+    color: var(--primary); 
+    padding: 0.2rem 0.6rem; 
+    border-radius: 6px; 
+    font-weight: 600; 
+    font-size: 0.8rem; 
+  }
+  
+  .post-card h2 { 
+    font-size: 1.6rem; 
+    margin-bottom: 0.8rem; 
+  }
+
+  .post-card h2 a { 
+    color: var(--text-bold); 
+    text-decoration: none; 
+  }
+
+  .post-card:hover h2 a { 
+    color: var(--primary); 
+  }
+
+  .post-card h2 a::after { 
+    content: ""; 
+    position: absolute; 
+    inset: 0; 
+    border-radius: 12px; 
+  }
+
+  .card-content p {
+    color: var(--text);
+  }
+
+  .post-date {
+    color: var(--text-muted);
+  }
+</style>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', function() {
+    var searchInput = document.getElementById('post-search');
+    var postsList = document.getElementById('posts-list');
+    
+    if (searchInput && postsList) {
+      var posts = Array.from(postsList.querySelectorAll('.post-card'));
+
+      searchInput.addEventListener('input', function(e) {
+        // Obtenemos el valor de forma ultra segura
+        var term = e.target.value.toLowerCase();
+
+        for (var i = 0; i < posts.length; i++) {
+          var post = posts[i];
+          var titleEl = post.querySelector('h2');
+          var catEl = post.querySelector('.post-category');
+          
+          var title = titleEl ? titleEl.textContent.toLowerCase() : "";
+          var category = catEl ? catEl.textContent.toLowerCase() : "";
+
+          if (title.indexOf(term) !== -1 || category.indexOf(term) !== -1) {
+            post.style.display = 'flex';
+          } else {
+            post.style.display = 'none';
+          }
+        }
+      });
+    }
+  });
+</script>

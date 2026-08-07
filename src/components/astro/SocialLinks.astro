@@ -1,0 +1,49 @@
+---
+// src/components/SocialLinks.astro
+---
+<div class="social-links">
+  <a href="https://github.com/RafaelJNR" target="_blank">
+    <img src="https://cdn.simpleicons.org/github/000" alt="GitHub" width="24"
+    title="GitHub"
+    aria-label="GitHub"  />
+  </a>
+  <a href="https://www.linkedin.com/in/rafaeljnr/" target="_blank">
+    <img src="https://as2.ftcdn.net/jpg/03/96/56/19/1000_F_396561934_t1OwjMZHrVY211bHA5uUEAix0F1SyLci.jpg" alt="LinkedIn" width="24"
+    title="LinkedIn"
+    aria-label="LinkedIn"  />
+  </a>
+  <a href="/curriculum/cv_rafa.pdf" download="Rafa_CV_Desarrollador.pdf">
+    <img src="https://cdn-icons-png.flaticon.com/512/8347/8347432.png" alt="Curriculum" width="24"
+    title="Descargar CV"
+    aria-label="Descargar CV" />
+  </a>
+
+  <a 
+  href="mailto:rafaelnramirez@gmail.com" 
+  title="Enviar un correo electrónico"
+  aria-label="Enviar un correo electrónico"
+  class="social-link"
+>
+  <!-- Icono de sobre/correo (SVG de Lucide/Tabler Icons) -->
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    width="24" 
+    height="24" 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    stroke-width="2" 
+    stroke-linecap="round" 
+    stroke-linejoin="round"
+  >
+    <rect width="20" height="16" x="2" y="4" rx="2" />
+    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+  </svg>
+</a>
+</div>
+
+<style>
+  .social-links { display: flex; gap: 1rem; }
+  .social-links a { transition: transform 0.2s; }
+  .social-links a:hover { transform: scale(1.1); }
+</style>

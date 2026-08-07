@@ -1,0 +1,141 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Carousel from "../components/astro/Carousel.astro";
+const misFotos = [
+  "/fotos/imagen1.webp",
+  "/fotos/imagen2.webp",
+  "/fotos/imagen3.webp",
+];
+---
+
+<BaseLayout
+  title="Sobre mí | Rafa"
+  description="Conoce mi trayectoria entre el desarrollo de software, la experiencia operativa y la formación."
+>
+  <section class="section-hero">
+    <h1 class="hero-title">Sobre mí</h1>
+    <p class="hero-subtitle">
+      Tu Desarrollador Full Stack & Docente para Adultos
+    </p>
+
+    <p class="hero-intro">
+    
+    </p>
+
+    <!-- CARRUSEL DE FOTOS -->
+    <div class="carousel-container">
+      <Carousel images={misFotos} />
+    </div>
+
+    <div class="prose">
+      <p>
+        Mi trayectoria destaca por una constante: utilizar la tecnología para
+        resolver problemas reales. Durante mi etapa en el Ejército, convertí la
+        necesidad de optimización en el motor para desarrollar herramientas
+        propias, lo que me llevó a titularme en el <strong
+          >Grado Superior en Desarrollo de Aplicaciones Multiplataforma (DAM)</strong
+        >, compaginando el servicio activo con los estudios y las responsabilidades
+        familiares.
+      </p>
+
+      <p>
+        Esto me llevó a iniciar mi experiencia en el sector privado, de la mano de <strong
+          ><a href="https://www.bitbox.es" target="_blank" class="enlace"
+            >Bitbox S.L. </a></strong> 
+        , en el desarrollo de software y cimentar una base en tecnologías web y de escritorio 
+        (JavaScript, React, Electron, Java y SpringBoot).
+      </p>
+
+      <p>
+        Actualmente, como <strong>Reservista de Especial Disponibilidad</strong>, he enfocado
+        mi carrera hacia la <strong>docencia técnica para adultos</strong>.
+        Dispongo del Certificado de Profesionalidad de Habilitación para la
+        Docencia (Grados A, B y C) impartido en <strong
+          ><a
+            href="https://www.academiadf.com/cursos/sede/tamaraceite-teror/7"
+            target="_blank"
+            class="enlace">Formavanza</a
+          ></strong
+        >, completando mis prácticas en <strong
+          ><a
+            href="https://www.academiadf.com/cursos/sede/telde-etalent/5"
+            target="_blank"
+            class="enlace">E-Talent</a
+          ></strong
+        > dentro del certificado de <em
+          >Diseño e Instalación de Instalaciones Fotovoltaicas</em
+        >.
+      </p>
+
+      <p>
+        Complemento esta capacitación con especializaciones en <strong
+          >Desarrollo e Implementación de Formaciones E-Learning</strong
+        >, <strong>Docencia Digital de la Formación Profesional</strong> y <strong
+          >Gestión de Plataformas LMS Moodle</strong
+        >. Mi enfoque pedagógico se centra en la andragogía, acompañando al
+        alumnado adulto en la adquisición de competencias prácticas mediante un
+        lenguaje asertivo y orientando el aprendizaje a proyectos reales.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Mismo padding vertical que la home y la página del blog */
+  .section-hero {
+    padding: 3rem 0;
+  }
+
+  /* Título alineado en tamaño (3rem) y variables globales */
+  .hero-title {
+    font-size: 3rem;
+    color: var(--text-bold);
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.2rem;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+    font-weight: 500;
+  }
+
+  .hero-intro {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text);
+  }
+
+  .carousel-container {
+    margin: 2.5rem 0;
+  }
+
+  /* Tipografía y márgenes sincronizados con el resto de la web */
+  .prose {
+    line-height: 1.8;
+    color: var(--text);
+  }
+
+  .prose p {
+    margin-bottom: 1.25rem;
+  }
+
+  .prose h2 {
+    font-size: 1.75rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-bold);
+  }
+
+  .enlace {
+    color: var(--primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .enlace:hover {
+    color: var(--primary-hover);
+    text-decoration: underline;
+  }
+</style>

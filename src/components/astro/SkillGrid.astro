@@ -1,0 +1,61 @@
+---
+// src/components/SkillGrid.astro
+interface Skill {
+  name: string;
+  icon: string;
+}
+
+interface Props {
+  category: string; // Nueva propiedad para identificar el grupo (Frontend, Backend, etc.)
+  items: Skill[];
+}
+
+const { category, items } = Astro.props;
+---
+
+<section class="skill-group">
+  <h4 class="category-title">{category}</h4>
+  <div class="tech-grid">
+    {items.map(item => (
+      <div class="tech-card">
+        <img src={item.icon} alt={item.name} width="32" height="32" />
+        <span>{item.name}</span>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .skill-group { 
+    margin-bottom: 2rem; 
+  }
+  .category-title { 
+    color: var(--text); 
+    font-size: 0.9rem; 
+    text-transform: uppercase; 
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+  }
+  
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    gap: 1rem;
+  }
+
+  .tech-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    transition: 0.3s;
+    background: var(--surface);
+  }
+  
+  .tech-card span { font-size: 0.75rem; }
+</style>
