@@ -30,24 +30,24 @@ const baseUrl = import.meta.env.BASE_URL;
 
       <!-- FOTO A LA DERECHA (CIRCULAR, MÁS PEQUEÑA) -->
       <div class="hero-avatar">
-        <img 
+        <img
           src=`${baseUrl}/fotos/foto_rafa_portada.webp`
-          alt="Foto de Rafa" 
+          alt="Foto de Rafa"
           class="avatar-img"
           loading="eager"
         />
       </div>
     </div>
-   
+
     <p class="hero-description">
       <strong
-      >Combinar el desarrollo técnico con la capacidad analítica docente me
-      permite abordar problemas complejos con una visión clara y concisa tanto
-      técnica como analítica</strong
+        >Combinar el desarrollo técnico con la capacidad analítica docente me
+        permite abordar problemas complejos con una visión clara y concisa tanto
+        técnica como analítica</strong
       >.
     </p>
-      
-        <h2>Mi enfoque</h2>
+
+    <h2>Mi enfoque</h2>
     <p class="hero-description">
       Mi trabajo nace en la intersección entre el desarrollo de software y la
       arquitectura de soluciones educativas digitales que, junto con una
@@ -118,43 +118,64 @@ const baseUrl = import.meta.env.BASE_URL;
 
   <section class="projects-section">
     <h2>Mis Proyectos Destacados</h2>
-    <p>Visite <a href="./projects" target="_blank">mis proyectos</a> para ver más.</p>
+    <p>
+      Visite <a href="./projects" target="_blank">mis proyectos</a> para ver más.
+    </p>
 
     <div class="projects-grid">
-      <ProjectCard 
+      <ProjectCard
         title="PassKey"
         description="Gestor de contraseñas diseñado bajo un enfoque de seguridad Zero-Knowledge (Conocimiento Cero) garantizando que toda la información se almacene de forma persistente y sea cifrada localmente en el equipo del usuario."
-        tags={['React', 'CSS3', 'TypeScript', 'Electron', 'Node.js', 'SQLite']}
-        imagenes={["images/passkey/1.png", "images/passkey/2.png", "images/passkey/3.webp"] }
-        compact={true} 
+        tags={["React", "CSS3", "TypeScript", "Electron", "Node.js", "SQLite"]}
+        imagenes={[
+          "images/passkey/1.png",
+          "images/passkey/2.png",
+          "images/passkey/3.webp",
+        ]}
+        compact={true}
       />
 
-      <ProjectCard 
+      <ProjectCard
         title="YT Audio Downloader"
         description="Aplicación portable de escritorio para Windows que permite descargar audio a partir de un vídeo 
         de YouTube."
-        tags={['HTML', 'CSS', 'JavaScript', 'Electron', 'Node.js']}
-        imagenes={["images/ytaudiodownloader/1.png", "images/ytaudiodownloader/2.png", "images/ytaudiodownloader/3.png", "images/ytaudiodownloader/4.png"] }
+        tags={["HTML", "CSS", "JavaScript", "Electron", "Node.js"]}
+        imagenes={[
+          "images/ytaudiodownloader/1.png",
+          "images/ytaudiodownloader/2.png",
+          "images/ytaudiodownloader/3.png",
+          "images/ytaudiodownloader/4.png",
+        ]}
         repoLink="https://github.com/RafaelJNR/AudioDownloader"
-        compact={true} 
+        compact={true}
       />
 
-      <ProjectCard 
-        title="Portfolio Personal"
-        description="Desarrollado con Astro..."
-        tags={['Astro', 'CSS']}
-        imagenes={[]}
-        compact={true} 
+      <ProjectCard
+        title="QR Generator"
+        description="Aplicación de escritorio que genera código QR."
+        tags={["HTML5", "CSS3", "JavaScript", "Node", "Electron"]}
+        imagenes={[
+          "/images/qrgenerator/1.png",
+          "/images/qrgenerator/1.png",
+          "/images/qrgenerator/1.png",
+        ]}
+        ,
+        repoLink="https://github.com/RafaelJNR/qrgenerator"
+        compact={true}
       />
 
-      <ProjectCard 
+      <ProjectCard
         title="Sunny Design System"
         description="Software docente acerca de Sunny Design. Su valor es acumular contenido acerca de la plataforma y su ecosistema, y ofrecerlo de manera didáctica a los estudiantes."
-        tags={['HTML5', 'CSS3', 'JAVASCRIPT', 'DOCENCIA']}
-        imagenes={["images/sunnydesign/1.png", "images/sunnydesign/2.png", "images/sunnydesign/3.png"] }
+        tags={["HTML5", "CSS3", "JAVASCRIPT", "DOCENCIA"]}
+        imagenes={[
+          "images/sunnydesign/1.png",
+          "images/sunnydesign/2.png",
+          "images/sunnydesign/3.png",
+        ]}
         repoLink="https://github.com/RafaelJNR/sunnydesign"
         demoLink="https://rafaeljnr.github.io/sunnydesign/"
-        compact={true} 
+        compact={true}
       />
     </div>
   </section>
@@ -172,7 +193,7 @@ const baseUrl = import.meta.env.BASE_URL;
     /* En lugar de space-between (que empuja el avatar al borde derecho), 
        usamos center con gap para traer el avatar más hacia la izquierda */
     justify-content: center;
-    gap: 3rem; 
+    gap: 3rem;
     width: 100%;
     box-sizing: border-box;
   }
@@ -182,7 +203,7 @@ const baseUrl = import.meta.env.BASE_URL;
       flex-direction: row;
       align-items: center;
       /* Ajusta este valor si quieres el avatar aún más cerca del texto/izquierda */
-      justify-content: space-between; 
+      justify-content: space-between;
     }
   }
 
@@ -206,14 +227,14 @@ const baseUrl = import.meta.env.BASE_URL;
     text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
   }
 
-/* En el <style> de tu index.astro */
-.hero-avatar {
+  /* En el <style> de tu index.astro */
+  .hero-avatar {
     flex-shrink: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     /* Añadimos un margen a la derecha para retirar la foto del borde del marco */
-    margin-right: 1.5rem; 
+    margin-right: 1.5rem;
     padding: 0.5rem;
   }
 
@@ -249,7 +270,7 @@ const baseUrl = import.meta.env.BASE_URL;
     margin-bottom: 2rem;
   }
 
-  .projects-section p{
+  .projects-section p {
     margin-bottom: 2rem;
   }
 
