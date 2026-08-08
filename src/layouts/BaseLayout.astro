@@ -7,14 +7,14 @@ import '../styles/global.css';
 
 const { title, description } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const ogImageUrl = new URL(`${import.meta.env.BASE_URL}/fotos/foto_rafa_portada.webp`, Astro.site).href;
+const ogImageUrl = new URL(`${import.meta.env.BASE_URL}/fotos/shareimage.webp`, Astro.site).href;
 ---
----
+
 
 <html lang="es">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href=`${import.meta.env.BASE_URL}/images/favicon.svg` />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description || "Mi portfolio profesional"} />
@@ -23,7 +23,7 @@ const ogImageUrl = new URL(`${import.meta.env.BASE_URL}/fotos/foto_rafa_portada.
     <!-- Open Graph / Facebook / LinkedIn / WhatsApp -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content={canonicalURL} />
-  <meta property="og:title" content="Rafa | Desarrollador Full Stack & Instructor" />
+  <meta property="og:title" content="Rafa | Desarrollador Full Stack & Docente" />
   <meta property="og:description" content="Portfolio personal y docente sobre desarrollo de software, proyectos y publicaciones técnicas." />
   <meta property="og:image" content={ogImageUrl} />
 
