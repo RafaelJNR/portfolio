@@ -6,6 +6,9 @@ import Footer from '../components/astro/Footer.astro';
 import '../styles/global.css';
 
 const { title, description } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageUrl = new URL(`${import.meta.env.BASE_URL}/fotos/foto_rafa_portada.webp`, Astro.site).href;
+---
 ---
 
 <html lang="es">
@@ -16,6 +19,20 @@ const { title, description } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description || "Mi portfolio profesional"} />
     <title>{title || "Rafa | Desarrollador & Docente"}</title>
+
+    <!-- Open Graph / Facebook / LinkedIn / WhatsApp -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:title" content="Rafa | Desarrollador Full Stack & Instructor" />
+  <meta property="og:description" content="Portfolio personal y docente sobre desarrollo de software, proyectos y publicaciones técnicas." />
+  <meta property="og:image" content={ogImageUrl} />
+
+  <!-- Twitter / X -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content={canonicalURL} />
+  <meta property="twitter:title" content="Rafa | Desarrollador Full Stack & Instructor" />
+  <meta property="twitter:description" content="Portfolio personal y docente sobre desarrollo de software, proyectos y publicaciones técnicas." />
+  <meta property="twitter:image" content={ogImageUrl} />
     
   </head>
   <body>
